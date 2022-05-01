@@ -1,0 +1,173 @@
+import java.io.*;
+class Main
+{
+    class Node 
+    {
+        int key;
+        Node left, right;
+        
+        Node(int item)
+        {
+            key=item;
+            left=right=null;
+        }
+    }
+    Node root;
+   
+    Main()
+    {
+        root=null;
+    }
+    
+    Node Insert(Node root, int key)
+    {
+        if(root==null)
+        {
+            root=new Node(key);
+            return root;
+        }
+        if(key<root.key)
+        {
+            root.left=Insert(root.left,key);
+        }
+        else if(key>root.key)
+        {
+            root.right=Insert(root.right,key);
+        }
+        return root;
+    }
+    
+    void Display_Inorder(Node root)
+    {
+        if(root!=null)
+        {
+            Display_Inorder(root.left);
+            System.out.print(root.key + " ");
+            Display_Inorder(root.right);
+        }
+    }
+    
+    Node minimumElement(Node root)
+    {
+        if(root.left==null){
+            return root;
+        }
+        else{
+            return minimumElement(root.left);
+        }
+    }
+    
+    boolean search(Node root, int key)
+    {
+        while(root!=null)
+        {
+            if(key > root.key)
+            {
+                root=root.right;
+            }
+            else if(key < root.key)
+            {
+                root=root.left;
+            }
+            else{
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    Node Delete(Node root, int key)
+    {
+        if(root == null){
+            return null;
+        }
+        else if(root.key>key){
+            root.left=Delete(root.left,key);
+        }
+        else if(root.key<key){
+            root.right=Delete(root.right,key);
+        }
+        
+        else
+        {
+            if(root.left!=null && root.right!=null)
+            {
+                Node temp=root;
+                Node minNodeforRight= minimumElement(temp.right);
+                root.key=minNodeforRight.key;
+                root.right=Delete(root.right, minNodeforRight.key);
+            }
+            else if(root.left!= null)
+            {
+                root=root.right;
+            }
+            else if(root.right!=null)
+            {
+                root=root.right;
+            }
+            else{
+                root=null;
+            }
+        }
+        return root;
+    }
+    
+    
+	public static void main(String[] args) throws IOException
+	{
+	    int a,b,c;
+	    
+	    BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+		Main tree =new Main();
+		System.out.print("Number of Nodes: ");
+		int size= Integer.parseInt(br.readLine());
+		
+		for(int i=0;i<size;i++)
+		{
+		    System.out.print("Enter the Number: ");
+		    a= Integer.parseInt(br.readLine());
+		    tree.root=tree.Insert(tree.root,a);
+		}
+		tree.Display_Inorder(tree.root);
+		while(true)
+		{
+		    int choice;
+		    System.out.println("\n");
+		    System.out.println("1.Insert \t2.Display \t3.Delete \t4.Search \t5.Exit");
+		    System.out.print("Enter the choice: ");
+		    choice=Integer.parseInt(br.readLine());
+		    switch(choice)
+		    {
+		        case 1:
+		            System.out.print("Enter the Number: ");
+		            a= Integer.parseInt(br.readLine());
+		            tree.root=tree.Insert(tree.root,a);
+		            break;
+		        case 2:
+		            tree.Display_Inorder(tree.root);
+		            break;
+		        case 3:
+		            System.out.print("Enter the number to be Deleted: ");
+		            b=Integer.parseInt(br.readLine());
+		            tree.root=tree.Delete(tree.root,b);
+		            break;
+		        case 4:
+		            System.out.print("Enter the number to be Searched: ");
+		            c=Integer.parseInt(br.readLine());
+		            if(tree.search(tree.root,c))
+		            {
+		                System.out.println("Match Found!!");
+		            }
+		            else{
+		                System.out.println("Match not Found!!");
+		            }
+		            break;
+		        case 5:
+		            System.exit(0);
+		            break;
+		        default:
+		            System.out.println("Enter correct choice!");
+		    }
+		}
+	}
+}
