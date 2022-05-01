@@ -1,0 +1,107 @@
+import java.util.Scanner;
+
+class MaxHeap{
+    int[] heap =new int[15] ;
+    int size=0;
+    
+    void insert(int val){
+        int current=size;
+        heap[current]=val;
+        while(heap[current]>heap[(current-1)/2]){
+            swap(current,(current-1)/2);
+            current=(current-1)/2;
+        }
+        size++;
+    }
+    private void swap(int pos, int p_pos) {
+        int k;
+        k=heap[pos];
+        heap[pos]=heap[p_pos];
+        heap[p_pos]=k;
+    }
+    void print(){
+        System.out.println("Element of Heap are ");
+        for (int i = 0; i < size; i++) {
+            System.out.println(heap[i]);
+        }
+    }
+    void maxVal(){
+        System.out.println("Maximum value is "+heap[0]);
+    }
+
+}
+
+class MinHeap{
+    int[] heap =new int[15] ;
+    int size=0;
+    
+    void insert(int val){
+        int current=size;
+        heap[current]=val;
+        while(heap[current]<heap[(current-1)/2]){
+            swap(current,(current-1)/2);
+            current=(current-1)/2;
+        }
+        size++;
+    }
+    private void swap(int pos, int p_pos) {
+        int k;
+        k=heap[pos];
+        heap[pos]=heap[p_pos];
+        heap[p_pos]=k;
+    }
+    void print(){
+        for (int i = 0; i < size; i++) {
+            System.out.println(heap[i]);
+        }
+    }
+    void minVal(){
+        System.out.println("Minimum value is "+heap[0]);
+    }
+
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        MaxHeap maxHeap=new MaxHeap();
+        MinHeap minHeap=new MinHeap();
+        Scanner sc=new Scanner(System.in);
+        boolean t=true;
+        while (t) {
+            System.out.println("Enter the choice ");
+            System.out.println("1. Insert ");
+            System.out.println("2. Max marks ");
+            System.out.println("3. Min marks ");
+            System.out.println("4. Display ");
+            System.out.println("5. Exit ");
+            int ch=sc.nextInt();
+            switch (ch) {
+                case 1:
+                    System.out.println("Enter the mark to insert ");
+                    int val= sc.nextInt();
+                    maxHeap.insert(val);
+                    minHeap.insert(val);
+                    break;
+                case 2:
+                    maxHeap.maxVal();
+                    break;
+                case 3:
+                    minHeap.minVal();
+                    break;
+                case 4:
+                    maxHeap.print();
+                    break;
+                case 5:
+                    t=false;
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        
+
+      
+    }
+}
